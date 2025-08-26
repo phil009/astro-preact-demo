@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../layouts/Layout.astro";
+import Counter from "../components/Counter.tsx";
+import ModalDemo from "../components/Modal.tsx";
+import Posts from "../components/Posts.tsx";
+import Messages from "../components/Messages.tsx";
+import LargeTable from "../components/LargeDataTable.tsx";
+---
+
+<BaseLayout>
+  <section>
+    <h2>🔢 Counter (State Demo)</h2>
+    <Counter client:load />
+  </section>
+
+  <section>
+    <h2>🪟 Modal (Triggered Externally)</h2>
+    <button onclick="window.dispatchEvent(new Event('openModal'))" style="padding:0.5rem 1rem; background:#2563eb; color:white; border:none; border-radius:6px;">
+      Open Modal
+    </button>
+    <ModalDemo client:load />
+  </section>
+
+  <section>
+    <h2>📡 Data Fetching</h2>
+    <Posts client:load />
+  </section>
+
+  <section>
+    <h2>💬 Messages Panel</h2>
+    <Messages client:load />
+  </section>
+
+  <section>
+    <h2>📊 Large Data Table</h2>
+    <LargeTable client:visible />
+  </section>
+</BaseLayout>
