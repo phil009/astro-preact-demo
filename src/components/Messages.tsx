@@ -1,4 +1,11 @@
 import { useState } from "preact/hooks";
+import { memo } from "preact/compat";
+
+// ✅ Memoized single message component
+const MessageItem = memo(({ text }: { text: string }) => {
+  console.log("Rendering message:", text); // Debug: shows which ones are rendered
+  return <p>💬 {text}</p>;
+});
 
 export default function Messages() {
   const [messages, setMessages] = useState<string[]>([]);
@@ -6,7 +13,8 @@ export default function Messages() {
 
   const addMessage = () => {
     if (!input.trim()) return;
-    setMessages([...messages, input]);
+    // ✅ Prefer functional update to avoid dependency on stale state
+    setMessages(prev => [...prev, input]);
     setInput("");
   };
 
@@ -15,7 +23,9 @@ export default function Messages() {
       <h3>Messages</h3>
       <div style={{ maxHeight: "150px", overflowY: "auto", marginBottom: "1rem", border: "1px solid #ccc", padding: "0.5rem" }}>
         {messages.length === 0 && <p style={{ color: "#666" }}>No messages yet</p>}
-        {messages.map((msg, i) => <p key={i}>💬 {msg}</p>)}
+        {messages.map((msg, i) => (
+          <MessageItem key={i} text={msg} />
+        ))}
       </div>
       <input
         value={input}
@@ -23,7 +33,9 @@ export default function Messages() {
         placeholder="Type a message..."
         style={{ padding: "0.5rem", width: "70%" }}
       />
-      <button onClick={addMessage} style={{ padding: "0.5rem 1rem", marginLeft: "0.5rem" }}>Send</button>
+      <button onClick={addMessage} style={{ padding: "0.5rem 1rem", marginLeft: "0.5rem" }}>
+        Send
+      </button>
     </div>
   );
 }

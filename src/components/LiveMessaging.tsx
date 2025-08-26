@@ -1,4 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
+import { memo } from "preact/compat";
 
 // Simulate IndexedDB
 let db: string[] = [];
@@ -6,6 +7,16 @@ let db: string[] = [];
 function middleware(msg: string) {
   return { text: msg, ts: new Date().toLocaleTimeString() };
 }
+
+// ✅ Memoized message component
+const MessageItem = memo(({ text, ts }: { text: string; ts: string }) => {
+  console.log("Rendering message:", text); // for dev/debug
+  return (
+    <p>
+      💬 {text} <small style={{ color: "#666" }}>({ts})</small>
+    </p>
+  );
+});
 
 export default function LiveMessages() {
   const [messages, setMessages] = useState<{ text: string; ts: string }[]>([]);
@@ -35,7 +46,7 @@ export default function LiveMessages() {
       <h3>Live Messages (with middleware + db)</h3>
       <div style={{ maxHeight: "200px", overflowY: "auto" }}>
         {messages.map((m, i) => (
-          <p key={i}>💬 {m.text} <small style={{ color: "#666" }}>({m.ts})</small></p>
+          <MessageItem key={i} text={m.text} ts={m.ts} />
         ))}
       </div>
     </div>
