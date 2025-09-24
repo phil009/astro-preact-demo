@@ -6,6 +6,7 @@ import Posts from "../components/Posts.tsx";
 import Messages from "../components/Messages.tsx";
 import LargeTable from "../components/LargeDataTable.tsx";
 import LiveMessages from "../components/LiveMessaging";
+import { JobsTabs } from "../components/JobsTabs";
 ---
 
 <BaseLayout>
@@ -48,6 +49,10 @@ import LiveMessages from "../components/LiveMessaging";
     <section>
         <h2>📊 Large Data Table</h2>
         <LargeTable client:visible />
+    </section>
+
+    <section>
+        <JobsTabs client:load/>
     </section>
 
 </BaseLayout>
